@@ -6,6 +6,7 @@
 ModelClass::ModelClass()
 	: m_vertexBuffer(nullptr)
 	, m_indexBuffer(nullptr)
+	, m_Texture(nullptr)
 {
 }
 
@@ -17,16 +18,27 @@ ModelClass::~ModelClass()
 {
 }
 
-bool ModelClass::Initialize(ID3D11Device* device)
+bool ModelClass::Initialize(ID3D11Device* device, WCHAR* textureFilename)
 {
 	// Initialize the vertex and index buffer that hold the geometry for the triangle.
 	bool result = InitializeBuffers(device);
+
+	if (!result)
+	{
+		return false;
+	}
+
+	// Load the texture for this model.
+	result = LoadTexture(device, textureFilename);
 
 	return result;
 }
 
 void ModelClass::Shutdown()
 {
+	// Release the model texture.
+	ReleaseTexture();
+
 	// Release the vertex and index buffers.
 	ShutdownBuffers();
 
@@ -46,6 +58,11 @@ int ModelClass::GetIndexCount() const
 	return m_indexCount;
 }
 
+ID3D11ShaderResourceView* ModelClass::GetTexture() const
+{
+	return m_Texture->GetTexture();
+}
+
 bool ModelClass::InitializeBuffers(ID3D11Device* device)
 {
 	std::unique_ptr<VertexType[]> vertices;
@@ -53,12 +70,7 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 	HRESULT result;
-
-	/*
-	First create two temporary arrays to hold the vertex and index data 
-	that we will use later to populate the final buffers with.
-	*/
-
+	
 	// Set the number of vertices in the vertex array.
 	m_vertexCount = 4;
 
@@ -81,21 +93,21 @@ bool ModelClass::InitializeBuffers(ID3D11Device* device)
 
 	// Load the vertex array with data.
 	vertices[0].position = XMFLOAT3(-1.0f, -1.0f, 0.0f);  // Bottom left.
-	vertices[0].color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertices[0].texture = XMFLOAT2(0.0f, 1.0f);
 
-	vertices[1].position = XMFLOAT3(-1.0f, 1.0f, 0.0f);  // Top Left.
-	vertices[1].color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertices[1].position = XMFLOAT3(-1.0f, 1.0f, 0.0f);  // Top left.
+	vertices[1].texture = XMFLOAT2(0.0f, 0.0f);
 
-	vertices[2].position = XMFLOAT3(1.0f, 1.0f, 0.0f);  // Top Right.
-	vertices[2].color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertices[2].position = XMFLOAT3(1.0f, 1.0f, 0.0f);  // Top right.
+	vertices[2].texture = XMFLOAT2(1.0f, 0.0f);
 
 	vertices[3].position = XMFLOAT3(1.0f, -1.0f, 0.0f);  // Bottom right.
-	vertices[3].color = XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f);
+	vertices[3].texture = XMFLOAT2(1.0f, 1.0f);	
 
 	// Load the index array with data.
 	indices[0] = 0;  // Bottom left.
 	indices[1] = 1;  // Top left.
-	indices[2] = 2;  // top right.
+	indices[2] = 2;  // Top right.
 
 	indices[3] = 0;  // Bottom left.
 	indices[4] = 2;  // Top right.
@@ -181,6 +193,38 @@ void ModelClass::RenderBuffers(ID3D11DeviceContext* deviceContext)
 
 	// Set the type of primitive that should be rendered from this vertex buffer, in this case triangles.
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	return;
+}
+
+bool ModelClass::LoadTexture(ID3D11Device* device, WCHAR* filename)
+{
+	bool result;
+
+	// Create the texture object.
+	m_Texture = std::make_unique<TextureClass>();
+	if (!m_Texture)
+	{
+		return false;
+	}
+
+	// Initialize the texture object.
+	result = m_Texture->Initialize(device, filename);
+	if (!result)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void ModelClass::ReleaseTexture()
+{
+	// Release the texture object.
+	if (m_Texture)
+	{
+		m_Texture->Shutdown();
+	}
 
 	return;
 }

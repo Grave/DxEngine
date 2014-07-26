@@ -13,6 +13,8 @@
 #include "ModelClass.h"
 #include "ColorShaderClass.h"
 
+#include "TextureShaderClass.h"
+
 /**
  * Class name: GraphicsClass
 */
@@ -34,5 +36,5 @@ private:
 	D3DClass m_D3D;
 	CameraClass m_Camera;
 	std::unique_ptr<ModelClass> m_Model;
-	std::unique_ptr<ColorShaderClass> m_ColorShader;
+	std::unique_ptr<TextureShaderClass> m_TextureShader;
 };

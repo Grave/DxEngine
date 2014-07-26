@@ -42,6 +42,12 @@
     <ClCompile Include="source\WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\TextureClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\TextureShaderClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\CameraClass.h">
@@ -71,12 +77,24 @@
     <ClInclude Include="source\WinMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\TextureClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="source\TextureShaderClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\color.ps">
       <Filter>Shaders</Filter>
     </None>
     <None Include="data\color.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="data\texture.vs">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="data\texture.ps">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
