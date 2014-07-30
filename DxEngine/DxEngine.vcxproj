@@ -82,6 +82,8 @@
     <ClCompile Include="source\D3DClass.cpp" />
     <ClCompile Include="source\GraphicsClass.cpp" />
     <ClCompile Include="source\InputClass.cpp" />
+    <ClCompile Include="source\LightClass.cpp" />
+    <ClCompile Include="source\LightShaderClass.cpp" />
     <ClCompile Include="source\ModelClass.cpp" />
     <ClCompile Include="source\SystemClass.cpp" />
     <ClCompile Include="source\TextureClass.cpp" />
@@ -94,6 +96,8 @@
     <ClInclude Include="source\D3DClass.h" />
     <ClInclude Include="source\GraphicsClass.h" />
     <ClInclude Include="source\InputClass.h" />
+    <ClInclude Include="source\LightClass.h" />
+    <ClInclude Include="source\LightShaderClass.h" />
     <ClInclude Include="source\ModelClass.h" />
     <ClInclude Include="source\stdafx.h" />
     <ClInclude Include="source\SystemClass.h" />
@@ -104,6 +108,8 @@
   <ItemGroup>
     <None Include="data\color.ps" />
     <None Include="data\color.vs" />
+    <None Include="data\light.ps" />
+    <None Include="data\light.vs" />
     <None Include="data\texture.ps" />
     <None Include="data\texture.vs" />
   </ItemGroup>

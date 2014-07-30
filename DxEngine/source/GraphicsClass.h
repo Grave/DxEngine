@@ -11,9 +11,9 @@
 #include "D3DClass.h"
 #include "CameraClass.h"
 #include "ModelClass.h"
-#include "ColorShaderClass.h"
 
-#include "TextureShaderClass.h"
+#include "LightShaderClass.h"
+#include "LightClass.h"
 
 /**
  * Class name: GraphicsClass
@@ -30,11 +30,13 @@ public:
 	bool Frame();
 
 private:
-	bool Render();
+	bool Render(float rotation);
 
 private:
 	D3DClass m_D3D;
 	CameraClass m_Camera;
 	std::unique_ptr<ModelClass> m_Model;
-	std::unique_ptr<TextureShaderClass> m_TextureShader;
+
+	std::unique_ptr<LightShaderClass> m_LightShader;
+	std::unique_ptr<LightClass> m_Light;
 };
